@@ -1,0 +1,48 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+}
+
+h1 {
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+h2 {
+    font-size: 2rem;
+    text-align: start;
+}
+
+.start-button {
+    background-color: peru;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px 18px;
+}
+
+.quiz-time {
+    display: flex;
+    flex-direction: inherit;
+    justify-content: flex-start;
+    text-align: start;
+    display: none;
+}
+
+.quiz-button {
+    background-color: peru;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 5px 10px;
+    max-width: fit-content;
+    
+}
+
