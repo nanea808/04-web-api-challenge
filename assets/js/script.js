@@ -3,15 +3,17 @@ var startButton = document.querySelector(".start-button");
 var quizContainer = document.querySelector(".quiz-time");
 var questionTag = document.querySelector("#question");
 var announcerTag = document.querySelector("#announcer");
-var scoreContainer = document.querySelector(".high-score");
-var yourScore = document.querySelector("#your-score")
-var initialForm = document.querySelector("#initial-form")
 var answersTags = {
     0: document.querySelector("#answer1"),
     1: document.querySelector("#answer2"),
     2: document.querySelector("#answer3"),
     3: document.querySelector("#answer4")
 }
+
+var scoreContainer = document.querySelector(".high-score");
+var yourScore = document.querySelector("#your-score");
+var initialForm = document.querySelector("#initial-form");
+var initialsInput = document.querySelector("#score-name");
 
 var questionsArray = [
     "Inside which HTML element do we put the JavaScript?",
@@ -69,12 +71,11 @@ quizContainer.addEventListener("click", function (event) {
 
     if (element.matches("button")) {
         var answerIndex = element.getAttribute("data-index")
-        debugger;
         if (answerIndex == answerList[questionCount]) {
             announcerTag.textContent = "Correct!";
         } else {
             // WHEN I answer a question incorrectly
-            announcerTag.textContent = "Wrong!"
+            announcerTag.textContent = "Wrong!";
             // THEN time is subtracted from the clock
             secondsLeftQuiz -= 10;
         }
@@ -86,19 +87,27 @@ quizContainer.addEventListener("click", function (event) {
             // THEN the game is over
             quizContainer.setAttribute("style", "display: none;");
             // WHEN the game is over
-            // THEN I can save my initials and my score
             scoreContainer.setAttribute("style", "display: flex;");
             yourScore.textContent += " " + secondsLeftQuiz;
-            localStorage.setItem("high-score", secondsLeftQuiz);
         } else {
-            questionCount++
+            questionCount++;
             questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
         }
     }
 });
 
+// THEN I can save my initials and my score
 initialForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+    var scoreInitials = initialsInput.value.trim();
 
+    var scoreSave = {
+        initials: scoreInitials,
+        highScore: secondsLeftQuiz
+    }
+    localStorage.setItem("score" + localStorage.length, JSON.stringify(scoreSave));
+
+    initialsInput.value = "";
 });
 
 
