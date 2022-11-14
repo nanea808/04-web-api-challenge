@@ -4,6 +4,8 @@ var quizContainer = document.querySelector(".quiz-time");
 var questionTag = document.querySelector("#question");
 var announcerTag = document.querySelector("#announcer");
 var scoreContainer = document.querySelector(".high-score");
+var yourScore = document.querySelector("#your-score")
+var initialForm = document.querySelector("#initial-form")
 var answersTags = {
     0: document.querySelector("#answer1"),
     1: document.querySelector("#answer2"),
@@ -21,30 +23,29 @@ var answersTextArrays = {
 }
 var answerList = [1, 1];
 var questionCount = 0;
-var score = 0;
 
 var secondsLeftQuiz = 60;
 var secondsLeftAnnounce = 1;
 
 function announceTimer() {
-    var timerInterval = setInterval(function() {
-    secondsLeftAnnounce--;
-    if (secondsLeftAnnounce === 0) {
-        clearInterval(timerInterval);
-        announcerTag.textContent = "";
-    }
+    var timerInterval = setInterval(function () {
+        secondsLeftAnnounce--;
+        if (secondsLeftAnnounce === 0) {
+            clearInterval(timerInterval);
+            announcerTag.textContent = "";
+        }
     }, 600);
 }
 
 function quizTimer() {
-    var timerInterval = setInterval(function() {
-    secondsLeftQuiz--;
-    if (secondsLeftQuiz === 0) {
-        // WHEN all questions are answered or the timer reaches 0
-        clearInterval(timerInterval);
-    }
+    var timerInterval = setInterval(function () {
+        secondsLeftQuiz--;
+        if (secondsLeftQuiz === 0) {
+            // WHEN all questions are answered or the timer reaches 0
+            clearInterval(timerInterval);
+        }
     }, 1000);
-} 
+}
 
 function questionMaker(question, answers) {
     questionTag.textContent = question;
@@ -71,7 +72,6 @@ quizContainer.addEventListener("click", function (event) {
         debugger;
         if (answerIndex == answerList[questionCount]) {
             announcerTag.textContent = "Correct!";
-            score++
         } else {
             // WHEN I answer a question incorrectly
             announcerTag.textContent = "Wrong!"
@@ -83,15 +83,23 @@ quizContainer.addEventListener("click", function (event) {
         // THEN I am presented with another question
         if (questionsArray[questionCount + 1] === undefined) {
             // WHEN all questions are answered or the timer reaches 0
-            quizContainer.setAttribute("style", "display: none;");
             // THEN the game is over
-
+            quizContainer.setAttribute("style", "display: none;");
+            // WHEN the game is over
+            // THEN I can save my initials and my score
+            scoreContainer.setAttribute("style", "display: flex;");
+            yourScore.textContent += " " + secondsLeftQuiz;
+            localStorage.setItem("high-score", secondsLeftQuiz);
         } else {
             questionCount++
             questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
         }
     }
-})
+});
 
-// WHEN the game is over
-// THEN I can save my initials and my score
+initialForm.addEventListener("submit", function(event) {
+
+});
+
+
+

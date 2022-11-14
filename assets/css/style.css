@@ -19,7 +19,7 @@ h1 {
 
 h2 {
     font-size: 2rem;
-    text-align: start;
+    text-align: center;
 }
 
 section {
@@ -49,11 +49,16 @@ section {
     
 }
 
+#question {
+    text-align: start;
+}
+
 #announcer {
     color: grey;
 }
 
 .high-score {
+    /* display: flex; */
     justify-content: center;
     text-align: center;
 }
