@@ -17,13 +17,15 @@ var initialsInput = document.querySelector("#score-name");
 
 var questionsArray = [
     "Inside which HTML element do we put the JavaScript?",
-    "Where is the correct place to insert a JavaScript?"
+    "Where is the correct place to insert a JavaScript?",
+    "How do you write 'Hello World' in an alert box?"
 ];
 var answersTextArrays = {
     0: ["<js>", "<script>", "<javascript>", "<scripting>"],
-    1: ["The <head> section", "The <body> section", "Both are correct"]
+    1: ["The <head> section", "The <body> section", "Both are correct", "None are correct"],
+    2: ["msg('Hello World')", "alert('Hello World')", "msgBox('Hello World')", "alertBox('Hello World')"]
 }
-var answerList = [1, 1];
+var answerList = [1, 1, 1];
 var questionCount = 0;
 
 var secondsLeftQuiz = 60;
@@ -33,8 +35,8 @@ function announceTimer() {
     var timerInterval = setInterval(function () {
         secondsLeftAnnounce--;
         if (secondsLeftAnnounce === 0) {
-            clearInterval(timerInterval);
             announcerTag.textContent = "";
+            clearInterval(timerInterval);
         }
     }, 600);
 }
@@ -51,15 +53,27 @@ function quizTimer() {
 
 function questionMaker(question, answers) {
     questionTag.textContent = question;
-    for (x = 0; x < answers.length; x++) {
+    for (var x = 0; x < answers.length; x++) {
         answersTags[x].textContent = x + 1 + "." + answers[x];
     }
 }
+
+function highScoreList() {
+    for (var x = 0; x < localStorage.length; x++) {
+        var p = document.createElement("p");
+        scoreObject = JSON.parse(localStorage.getItem("score" + String(x)));
+        p.textContent = scoreObject.initials + ": " + scoreObject.highScore;
+        
+        startButton.parentElement.appendChild(p);
+    }
+}
+highScoreList();
+
 // WHEN I click the start button
 startButton.addEventListener("click", function () {
     // THEN a timer starts and I am presented with a question
     quizTimer();
-    startButton.setAttribute("style", "visibility: hidden;");
+    startButton.parentElement.setAttribute("style", "display: none;");
     quizContainer.setAttribute("style", "display: flex;");
 });
 
@@ -88,7 +102,7 @@ quizContainer.addEventListener("click", function (event) {
             quizContainer.setAttribute("style", "display: none;");
             // WHEN the game is over
             scoreContainer.setAttribute("style", "display: flex;");
-            yourScore.textContent += " " + secondsLeftQuiz;
+            yourScore.textContent += secondsLeftQuiz;
         } else {
             questionCount++;
             questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
@@ -100,14 +114,21 @@ quizContainer.addEventListener("click", function (event) {
 initialForm.addEventListener("submit", function(event) {
     event.preventDefault();
     var scoreInitials = initialsInput.value.trim();
+    if (scoreInitials != "") {
+        var scoreSave = {
+            initials: scoreInitials,
+            highScore: secondsLeftQuiz
+        }
+        localStorage.setItem("score" + localStorage.length, JSON.stringify(scoreSave));
+    
+        initialsInput.value = "";
+    } 
 
-    var scoreSave = {
-        initials: scoreInitials,
-        highScore: secondsLeftQuiz
-    }
-    localStorage.setItem("score" + localStorage.length, JSON.stringify(scoreSave));
-
-    initialsInput.value = "";
+    scoreContainer.setAttribute("style", "display: none;");
+    startButton.parentElement.setAttribute("style", "display: contents;");
+    questionCount = 0;
+    secondsLeftQuiz = 60;
+    yourScore.textContent = "Your Score: ";
 });
 
 
