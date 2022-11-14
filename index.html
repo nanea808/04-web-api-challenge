@@ -7,18 +7,30 @@
 	<title>Javascript Quiz</title>
 </head>
 <body>
-	<header>
+	<header id="start-header">
         <h1>Javascript Quiz Time!</h1>
         <button class="start-button">Start</button>
+        <h2>High Scores:</h2>
     </header>
 
     <section class="quiz-time">
-        <h2 data-question="">This is the question?</h2>
-        <button class="quiz-button" data-answer="">1. yeah</button>
-        <button class="quiz-button" data-answer="">2. no</button>
-        <button class="quiz-button" data-answer="">3. maybe</button>
-        <button class="quiz-button" data-answer="">4. so</button>
+        <h2 id="question">This is the question?</h2>
+        <button class="quiz-button" data-index="0" id="answer1">1. yeah</button>
+        <button class="quiz-button" data-index="1" id="answer2">2. no</button>
+        <button class="quiz-button" data-index="2" id="answer3">3. maybe</button>
+        <button class="quiz-button" data-index="3" id="answer4">4. so</button>
+        <p id="announcer"></p>
     </section>
 
+    <section class="high-score">
+        <h2>Quiz Over!</h2>
+        <p id="your-score">Your Score: </p>
+        <form id="initial-form" method="POST">
+            <label for="score-name">Enter Initials:</label>
+            <input type="text" name="score-name" id="score-name">
+        </form>
+        
+    </section>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>

@@ -19,7 +19,12 @@ h1 {
 
 h2 {
     font-size: 2rem;
-    text-align: start;
+    text-align: center;
+}
+
+section {
+    display: none;
+    flex-direction: inherit;
 }
 
 .start-button {
@@ -30,11 +35,8 @@ h2 {
 }
 
 .quiz-time {
-    display: flex;
-    flex-direction: inherit;
     justify-content: flex-start;
     text-align: start;
-    display: none;
 }
 
 .quiz-button {
@@ -42,7 +44,21 @@ h2 {
     cursor: pointer;
     border-radius: 8px;
     padding: 5px 10px;
+    margin: 2px;
     max-width: fit-content;
     
 }
 
+#question {
+    text-align: start;
+}
+
+#announcer {
+    color: grey;
+}
+
+.high-score {
+    /* display: flex; */
+    justify-content: center;
+    text-align: center;
+}
