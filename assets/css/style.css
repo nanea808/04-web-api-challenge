@@ -30,11 +30,10 @@ h2 {
 }
 
 .quiz-time {
-    display: flex;
+    display: none;
     flex-direction: inherit;
     justify-content: flex-start;
     text-align: start;
-    display: none;
 }
 
 .quiz-button {
@@ -42,6 +41,7 @@ h2 {
     cursor: pointer;
     border-radius: 8px;
     padding: 5px 10px;
+    margin: 2px;
     max-width: fit-content;
     
 }
