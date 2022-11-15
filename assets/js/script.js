@@ -1,4 +1,4 @@
-// GIVEN I am taking a code quiz
+// Initalizes question tags
 var startButton = document.querySelector(".start-button");
 var quizContainer = document.querySelector(".quiz-time");
 var questionTag = document.querySelector("#question");
@@ -10,11 +10,13 @@ var answersTags = {
     3: document.querySelector("#answer4")
 }
 
+// Initializes score tags
 var scoreContainer = document.querySelector(".high-score");
 var yourScore = document.querySelector("#your-score");
 var initialForm = document.querySelector("#initial-form");
 var initialsInput = document.querySelector("#score-name");
 
+// This is where you set your questions and answers
 var questionsArray = [
     "Inside which HTML element do we put the JavaScript?",
     "Where is the correct place to insert a JavaScript?",
@@ -32,28 +34,30 @@ var secondsLeftQuiz = 60;
 var secondsLeftAnnounce = 1;
 var finalScore = null;
 
+// This timer creates a delay after answering each question
 function endQuestionTimer() {
     var timerInterval1 = setInterval(function () {
         let secondsLeft = secondsLeftAnnounce;
         secondsLeft--;
         if (secondsLeft=== 0) {
+            // Moves on to next question or ends game if no questions are left
             if (questionsArray[questionCount + 1] === undefined) {
-                // WHEN all questions are answered or the timer reaches 0
-                // THEN the game is over
                 quizContainer.setAttribute("style", "display: none;");
-                // WHEN the game is over
                 scoreContainer.setAttribute("style", "display: flex;");
                 yourScore.textContent += secondsLeftQuiz;
+                finalScore = secondsLeftQuiz;
             } else {
                 questionCount++;
                 questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
             }
+            // Resets question answer announcer
             announcerTag.textContent = "";
             clearInterval(timerInterval1);
         }
     }, 600);
 }
 
+// Quiz timer
 function quizTimer() {
     var timerInterval2 = setInterval(function () {
         secondsLeftQuiz--;
@@ -64,6 +68,7 @@ function quizTimer() {
     }, 1000);
 }
 
+// Loads questions and answers on to page
 function questionMaker(question, answers) {
     questionTag.textContent = question;
     for (var x = 0; x < answers.length; x++) {
@@ -71,6 +76,7 @@ function questionMaker(question, answers) {
     }
 }
 
+// Loads high-score list onto page after refresh
 function highScoreList() {
     for (var x = 0; x < localStorage.length; x++) {
         var p = document.createElement("p");
@@ -82,18 +88,17 @@ function highScoreList() {
 }
 highScoreList();
 
-// WHEN I click the start button
+// Starts quiz when "start" button is pressed
 startButton.addEventListener("click", function () {
-    // THEN a timer starts and I am presented with a question
     quizTimer();
     startButton.parentElement.setAttribute("style", "display: none;");
     quizContainer.setAttribute("style", "display: flex;");
 });
-
+// Presents first question
 questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
 
+// This checks if a user is correct upon answering a question
 quizContainer.addEventListener("click", function (event) {
-    // WHEN I answer a question
     var element = event.target;
 
     if (element.matches("button")) {
@@ -101,13 +106,11 @@ quizContainer.addEventListener("click", function (event) {
         if (answerIndex == answerList[questionCount]) {
             announcerTag.textContent = "Correct!";
         } else {
-            // WHEN I answer a question incorrectly
             announcerTag.textContent = "Wrong!";
-            // THEN time is subtracted from the clock
             secondsLeftQuiz -= 10;
         }
+        // Once a question is answered a delay timer is set
         endQuestionTimer();
-        finalScore = secondsLeftQuiz;
     }
 });
 
