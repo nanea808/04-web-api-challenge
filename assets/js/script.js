@@ -111,7 +111,7 @@ quizContainer.addEventListener("click", function (event) {
     }
 });
 
-// THEN I can save my initials and my score
+// Saves users initials and score
 initialForm.addEventListener("submit", function(event) {
     event.preventDefault();
     var scoreInitials = initialsInput.value.trim();
@@ -121,12 +121,18 @@ initialForm.addEventListener("submit", function(event) {
             highScore: finalScore
         }
         localStorage.setItem("score" + localStorage.length, JSON.stringify(scoreSave));
-    
         initialsInput.value = "";
+
+        // Updates score list with new score
+        var p = document.createElement("p");
+        p.textContent = scoreSave.initials + ": " + scoreSave.highScore;
+        startButton.parentElement.appendChild(p);
     } 
 
+    // Unhides start button and score list
     scoreContainer.setAttribute("style", "display: none;");
     startButton.parentElement.setAttribute("style", "display: contents;");
+    // Resets variables to default
     questionCount = 0;
     secondsLeftQuiz = 60;
     yourScore.textContent = "Your Score: ";
