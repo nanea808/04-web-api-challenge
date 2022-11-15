@@ -30,23 +30,36 @@ var questionCount = 0;
 
 var secondsLeftQuiz = 60;
 var secondsLeftAnnounce = 1;
+var finalScore = null;
 
-function announceTimer() {
-    var timerInterval = setInterval(function () {
-        secondsLeftAnnounce--;
-        if (secondsLeftAnnounce === 0) {
+function endQuestionTimer() {
+    var timerInterval1 = setInterval(function () {
+        let secondsLeft = secondsLeftAnnounce;
+        secondsLeft--;
+        if (secondsLeft=== 0) {
+            if (questionsArray[questionCount + 1] === undefined) {
+                // WHEN all questions are answered or the timer reaches 0
+                // THEN the game is over
+                quizContainer.setAttribute("style", "display: none;");
+                // WHEN the game is over
+                scoreContainer.setAttribute("style", "display: flex;");
+                yourScore.textContent += secondsLeftQuiz;
+            } else {
+                questionCount++;
+                questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
+            }
             announcerTag.textContent = "";
-            clearInterval(timerInterval);
+            clearInterval(timerInterval1);
         }
     }, 600);
 }
 
 function quizTimer() {
-    var timerInterval = setInterval(function () {
+    var timerInterval2 = setInterval(function () {
         secondsLeftQuiz--;
         if (secondsLeftQuiz === 0) {
             // WHEN all questions are answered or the timer reaches 0
-            clearInterval(timerInterval);
+            clearInterval(timerInterval2);
         }
     }, 1000);
 }
@@ -93,20 +106,8 @@ quizContainer.addEventListener("click", function (event) {
             // THEN time is subtracted from the clock
             secondsLeftQuiz -= 10;
         }
-        announceTimer();
-
-        // THEN I am presented with another question
-        if (questionsArray[questionCount + 1] === undefined) {
-            // WHEN all questions are answered or the timer reaches 0
-            // THEN the game is over
-            quizContainer.setAttribute("style", "display: none;");
-            // WHEN the game is over
-            scoreContainer.setAttribute("style", "display: flex;");
-            yourScore.textContent += secondsLeftQuiz;
-        } else {
-            questionCount++;
-            questionMaker(questionsArray[questionCount], answersTextArrays[questionCount]);
-        }
+        endQuestionTimer();
+        finalScore = secondsLeftQuiz;
     }
 });
 
@@ -117,7 +118,7 @@ initialForm.addEventListener("submit", function(event) {
     if (scoreInitials != "") {
         var scoreSave = {
             initials: scoreInitials,
-            highScore: secondsLeftQuiz
+            highScore: finalScore
         }
         localStorage.setItem("score" + localStorage.length, JSON.stringify(scoreSave));
     
